@@ -1,0 +1,21 @@
+[project]
+name = "btc-recorder"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["httpx>=0.28,<0.29", "websockets>=15,<16", "certifi>=2025"]
+
+[project.scripts]
+btc-record = "btc.recorder:main"
+
+[dependency-groups]
+dev = ["pytest>=8,<10"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["btc"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
