@@ -1,0 +1,41 @@
+{
+  "target": "Probability that the current BTC 15-minute Polymarket market resolves Up",
+  "first_baseline": "zero_drift_probability",
+  "candidates": [
+    {
+      "id": "zero_drift_probability",
+      "source": "https://github.com/schen9999/btc-15m-engine",
+      "method": "Zero-drift price distribution with recent volatility and time remaining; conditions on settlement averaging",
+      "inputs": ["BTC price history", "target", "expiry", "settlement averaging rule"],
+      "fit": "Variable time to fixed boundary",
+      "limitations": "Source uses a CF-style proxy settlement. Adapt to recorded Polymarket rules; no proven edge over market odds."
+    },
+    {
+      "id": "logistic_15m",
+      "source": "https://huggingface.co/huntergemmer/crypto-15min-direction-classifier",
+      "method": "Logistic regression on a 60-minute BTC/ETH feature window",
+      "inputs": ["BTC and ETH 1-minute candles", "exact feature preprocessing"],
+      "fit": "Next 15 minutes; directly comparable only at aligned market opens",
+      "reported_metrics": {"accuracy": 0.531, "auc": 0.540},
+      "limitations": "Author-reported, unreplicated, trained on 2017-2020 data, ignores costs. Arbitrary in-window inference changes its target."
+    },
+    {
+      "id": "temporal_cnn_orderbook",
+      "source": "https://github.com/Globe-Research/deep-orderbook",
+      "paper": "https://arxiv.org/abs/2010.01241",
+      "method": "Temporal CNN over BTC limit order books",
+      "inputs": ["BTC exchange order-book histories", "training data and compute"],
+      "fit": "Two-second price direction, not current 15-minute settlement",
+      "limitations": "Needs retraining/target adaptation or a separate short-horizon odds-repricing experiment. Paper accuracy is not Polymarket profit."
+    }
+  ],
+  "evaluation": [
+    "Use official resolved outcomes; clearly separate proxy-price experiments",
+    "Use only data available by the prediction timestamp",
+    "Compare model and market probabilities on identical later untouched markets",
+    "Report Brier score, log loss, and calibration; group uncertainty by market",
+    "Price hypothetical entries at asks with fees, latency, and available shares",
+    "Keep open-market 15-minute forecasts separate from in-window settlement forecasts"
+  ],
+  "status": "Sources inspected; models not yet run against our recorded odds"
+}

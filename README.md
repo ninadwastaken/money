@@ -31,3 +31,23 @@ Analysis replays local receipt order, resets books on gaps, and checks ask depth
 plus recorded fees. Default: 10 shares/side and 0.5¢ extra cost/pair.
 Margins are hypothetical total dollars, not fills or profit. The 3s age filter
 uses local book-update receipts; it does not prove low exchange latency.
+
+Baseline comparison (requires matching Binance minute-candle ZIP):
+```sh
+uv run python -m btc.compare data/btc-prices/BTCUSDT-1m-2026-10-15.zip
+```
+One prediction at five minutes per market; completed candles only. Uses a
+Binance return proxy, not the settlement feed. Official winners score results.
+Output: `data/baseline-comparison.json`. Trade results assume same-snapshot fills.
+
+Historical downloads:
+```sh
+uv run python -m btc.archive --list
+uv run python -m btc.archive --start 2026-02-16 --end 2026-03-05 --dry-run
+uv run python -m btc.archive --start 2026-02-16 --end 2026-03-05
+```
+Dates are inclusive. Missing archive dates are listed and skipped. Matching BTC
+candles and prior-day warmup are included. Files save to `data/history/`;
+verified downloads are reused. Default new-download limit: 500 MB (`--max-mb`).
+Historical scores: `data/history/comparison.json`; quote-only trade estimates
+use standardized fees and assume fills.
