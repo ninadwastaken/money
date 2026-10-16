@@ -8,7 +8,7 @@ uv run pytest
 uv run python -m btc.analyze
 ```
 
-Records BTC 15-minute Polymarket books, trade updates, metadata and resolutions.
+Records BTC 15-minute Polymarket markets plus Coinbase BTC-USD books/trades.
 Current and next markets are discovered every 10s; metadata refreshes every 30s.
 Unresolved recordings resume on restart. No wallet or trading.
 
@@ -51,3 +51,11 @@ candles and prior-day warmup are included. Files save to `data/history/`;
 verified downloads are reused. Default new-download limit: 500 MB (`--max-mb`).
 Historical scores: `data/history/comparison.json`; quote-only trade estimates
 use standardized fees and assume fills.
+
+The same `btc-record` command now records both feeds. Coinbase raw data saves
+to `data/coinbase-btc-usd/events.jsonl` with matching local receipt timestamps.
+Its public book feed batches updates every 50 ms; it is not the settlement feed.
+Trade `side` means maker side (aggressor is opposite); `last_match` is historical.
+`trade_gap` flags incomplete trade history; no backfill is attempted. Reconnects
+require a new snapshot. Exclude affected windows when building features.
+[Coinbase feed](https://docs.cdp.coinbase.com/exchange/websocket-feed/channels)

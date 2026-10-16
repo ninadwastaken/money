@@ -1,0 +1,10 @@
+STRATEGIES TO TRY
+
+Format: idea | why it might work | data needed | status
+
+BTC order flow + market odds | Buying/selling pressure may add information
+beyond Polymarket odds | BTC books/trades + Polymarket books/outcomes | NEXT
+
+Future ideas:
+- Kalshi/Polymarket arbitrage | Related contracts may trade at different prices
+  | Both order books, fees, verified settlement rules, and two-leg execution | LATER

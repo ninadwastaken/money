@@ -3,12 +3,11 @@ import asyncio
 import logging
 import signal
 import ssl
-import time
 from pathlib import Path
 import certifi
 import httpx
-from .lifecycle import watch
-from .markets import fetch, slugs
+from .discovery import discover
+from .coinbase import record as record_coinbase
 
 
 async def run(root, seconds=None):
@@ -20,25 +19,13 @@ async def run(root, seconds=None):
     context = ssl.create_default_context(cafile=certifi.where())
     try:
         async with httpx.AsyncClient(timeout=10, verify=context) as client:
-            while not stop.is_set():
-                # Revisit recorded unresolved markets after restarting.
-                pending = {p.name for p in root.glob('btc-updown-15m-*')}
-                for slug in sorted(pending | set(slugs(time.time()))):
-                    if slug in tasks:
-                        if tasks[slug].done():
-                            tasks[slug].result()
-                        continue
-                    try:
-                        market = await fetch(client, slug)
-                        if market:
-                            tasks[slug] = asyncio.create_task(watch(client, market, root))
-                            logging.info('Watching %s', slug)
-                    except (httpx.HTTPError, ValueError, KeyError) as error:
-                        logging.warning('%s: %s', slug, error)
-                try:
-                    await asyncio.wait_for(stop.wait(), timeout=10)
-                except TimeoutError:
-                    pass
+            tasks['coinbase'] = asyncio.create_task(record_coinbase(root))
+            try:
+                await discover(client,root,tasks,stop)
+            finally:
+                for task in tasks.values():
+                    task.cancel()
+                await asyncio.gather(*tasks.values(),return_exceptions=True)
     finally:
         if timer:
             timer.cancel()
