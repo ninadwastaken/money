@@ -59,3 +59,12 @@ Trade `side` means maker side (aggressor is opposite); `last_match` is historica
 `trade_gap` flags incomplete trade history; no backfill is attempted. Reconnects
 require a new snapshot. Exclude affected windows when building features.
 [Coinbase feed](https://docs.cdp.coinbase.com/exchange/websocket-feed/channels)
+
+NFL play-by-play and historical moneyline trades:
+```sh
+uv run --extra research python -m nfl.download --season 2026
+uv run --extra research python -m nfl.trades
+```
+Discovers markets for all saved season games and reuses completed downloads.
+Use `--since YYYY-MM-DD` to limit games or `--plays PATH` for another season.
+Trades: `data/nfl/trades/`; missing games and counts: `coverage.json` there.
