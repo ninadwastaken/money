@@ -1,6 +1,6 @@
 NFL DEFENSE STRATEGY — FROZEN 2026-10-16
 
-Status: frozen hypothesis for future paper trading; live NFL recorder not built.
+Status: frozen hypothesis; live recorder built, paper-fill simulation pending.
 
 Market: NFL full-game team moneyline, including overtime in settlement.
 Size: simulated $10 per entry, including entry fees.

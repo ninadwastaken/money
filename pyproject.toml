@@ -6,6 +6,7 @@ dependencies = ["httpx>=0.28,<0.29", "websockets>=15,<16", "certifi>=2025"]
 
 [project.scripts]
 btc-record = "btc.recorder:main"
+nfl-record = "nfl.recorder:main"
 
 [project.optional-dependencies]
 research = [

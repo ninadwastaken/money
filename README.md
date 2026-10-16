@@ -1,6 +1,7 @@
 # BTC recorder
 
 Research history: [results](RESULTS.md). Future ideas: [strategies](strategies/ideas.txt).
+Live NFL moneylines: [recording instructions](docs/nfl-recording.md).
 
 ```sh
 uv sync

@@ -7,7 +7,8 @@ Reports under `data/` are saved locally and ignored by Git; this log is tracked.
 
 Frozen for future paper testing on 2026-10-16: [NFL defense rule](strategies/nfl_defense_frozen.txt).
 Buy defense +30s, sell on return to offense; no new buys at 2:30 or less in
-regulation or during overtime. Live NFL validation infrastructure is not built.
+regulation or during overtime. Live recording is built; paper-fill simulation
+and verification of possession fields during an NFL game are still pending.
 
 ## Historical data audit (2026-10-16)
 
