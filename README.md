@@ -5,6 +5,7 @@ uv sync
 uv run btc-record                    # Ctrl+C to stop
 uv run btc-record --seconds 60       # Bounded run
 uv run pytest
+uv run python -m btc.analyze
 ```
 
 Records BTC 15-minute Polymarket books, trade updates, metadata and resolutions.
@@ -25,3 +26,8 @@ Code: `markets.py` discovery, `stream.py` connection, `storage.py` files,
 `lifecycle.py` settlement tracking, `recorder.py` coordination and CLI.
 
 [Stream docs](https://docs.polymarket.com/market-data/realtime-data)
+
+Analysis replays local receipt order, resets books on gaps, and checks ask depth
+plus recorded fees. Default: 10 shares/side and 0.5¢ extra cost/pair.
+Margins are hypothetical total dollars, not fills or profit. The 3s age filter
+uses local book-update receipts; it does not prove low exchange latency.
