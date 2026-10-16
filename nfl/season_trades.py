@@ -8,7 +8,7 @@ from nfl.prices import fetch_market
 from nfl.trades import download
 
 
-def run(plays_path, since, markets, output):
+def run(plays_path, since, markets, output, **download_options):
     markets.mkdir(parents=True, exist_ok=True)
     output.mkdir(parents=True, exist_ok=True)
     coverage = []
@@ -17,7 +17,7 @@ def run(plays_path, since, markets, output):
             result = dict(game=game)
             try:
                 market = fetch_market(client, plays, markets)
-                rows = download(client, market['conditionId'], output / (game + '.json'))
+                rows = download(client, market['conditionId'], output / (game + '.json'), **download_options)
                 start = min(timestamp(p['time_of_day']) for p in plays if p['time_of_day'])
                 end = max(timestamp(p['end_clock_time'] or p['time_of_day']) or 0 for p in plays)
                 in_game = sum(start <= row['timestamp'] <= end for row in rows)
@@ -28,7 +28,7 @@ def run(plays_path, since, markets, output):
             coverage.append(result)
             print(game, result, flush=True)
     report = dict(downloaded_at=datetime.now(timezone.utc).isoformat(), plays=str(plays_path),
-        source='https://data-api.polymarket.com/v2/trades', since=since,
+        source='https://data-api.polymarket.com/v2/trades', since=since, options=download_options,
         games=len(coverage), games_with_in_game_trades=sum(row.get('in_game_trades', 0) > 0 for row in coverage),
         trades=sum(row.get('trades', 0) for row in coverage),
         in_game_trades=sum(row.get('in_game_trades', 0) for row in coverage), coverage=coverage)

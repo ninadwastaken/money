@@ -11,3 +11,6 @@ Future ideas:
 
 - NFL delayed defense entry | Buy defending team after 60 seconds; exit on possession
   | Timestamped possessions and tradable bid/ask history | CHART SCREEN ONLY
+
+- NFL defense +30s, exit on return to offense, stop buys at 2:30 regulation
+  | Future paper test | FROZEN: nfl_defense_frozen.txt

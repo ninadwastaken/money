@@ -9,7 +9,8 @@ def timestamp(value):
 
 def games(path, since):
     columns = ['game_id','game_date','play_id','posteam','defteam','fixed_drive',
-               'drive_real_start_time','time_of_day','end_clock_time','home_team','away_team']
+               'drive_real_start_time','time_of_day','end_clock_time','home_team','away_team',
+               'qtr','game_seconds_remaining']
     grouped = defaultdict(list)
     for play in parquet.read_table(path,columns=columns).to_pylist():
         if play['game_date'] >= since:

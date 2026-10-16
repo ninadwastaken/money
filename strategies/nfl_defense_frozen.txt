@@ -1,0 +1,28 @@
+NFL DEFENSE STRATEGY — FROZEN 2026-10-16
+
+Status: frozen hypothesis for future paper trading; live NFL recorder not built.
+
+Market: NFL full-game team moneyline, including overtime in settlement.
+Size: simulated $10 per entry, including entry fees.
+Entry: buy a team's moneyline 30 wall-clock seconds after it starts defending.
+Only enter if that team is still defending when the delay expires.
+Cutoff: no new buys at 2:30 or less on the regulation game clock.
+No new overtime buys. Keep positions opened before the cutoff.
+Exit: sell when the same team regains possession and starts attacking.
+If the game ends before it regains possession, use official settlement.
+One entry per defensive possession; no adding to an existing position.
+
+Future simulation must use observed possession changes and executable ask/bid
+depth for the order size, including fees and venue execution delay. Record
+missing data, failed fills, and losses. Do not substitute chart prices for fills.
+
+Validation: games starting after this freeze; earlier games are exploratory.
+Keep this rule unchanged during validation. Record any proposed changes as
+separate versions; never rewrite earlier results under a changed rule.
+Sample size and review date are not yet set; do not claim validation from a
+short winning run or treat the historical best cutoff as proven.
+
+Historical context: 80 games searched, only 24 usable entries at this cutoff,
+17 positive; hypothetical +$26.36 on $10 entries after estimated fees.
+Possession times and trade prices were proxies; no executable edge established.
+Results log: ../RESULTS.md

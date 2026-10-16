@@ -1,5 +1,7 @@
 # BTC recorder
 
+Research history: [results](RESULTS.md). Future ideas: [strategies](strategies/ideas.txt).
+
 ```sh
 uv sync
 uv run btc-record                    # Ctrl+C to stop
@@ -68,3 +70,10 @@ uv run --extra research python -m nfl.trades
 Discovers markets for all saved season games and reuses completed downloads.
 Use `--since YYYY-MM-DD` to limit games or `--plays PATH` for another season.
 Trades: `data/nfl/trades/`; missing games and counts: `coverage.json` there.
+Broader raw history, including maker records and tiny fills:
+```sh
+uv run --extra research python -m nfl.trades --include-makers --minimum-size 0.000001 --output data/nfl/trades-all
+uv run python -m nfl.audit_history
+```
+Maker rows can describe the same fills as taker rows; do not count them as
+additional independent trades or feed them directly into the taker-price screen.
