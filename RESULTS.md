@@ -134,6 +134,17 @@ Report: [chart screen](data/nfl/defense-screen/screen.json).
 
 ## BTC: probability model versus market odds
 
+Paired recording audit (2026-10-16): Coinbase contains 60 minutes, 29,883 new
+trade messages, two connections and two initial book snapshots. Four BTC rounds
+have fresh two-outcome Polymarket books at the fixed open+302s decision time
+during Coinbase coverage. All four officially resolved Down; the final label
+was fetched after recording stopped. This sample cannot train and independently
+test an Up/Down logistic model. Thousands of ticks do not add independent round
+labels. No logistic model trained or profitability calculated from this hour.
+Reports: [decision audit](data/paired-decision-audit.json),
+[recording inventory](data/paired-data-audit.json),
+[recovered official outcome](data/paired-outcomes.json).
+
 Zero-drift model using Binance minute returns and EWMA volatility; decide 302s
 after market open, trade if estimated edge exceeds 2 percentage points.
 Illustrative fees and same-snapshot fills; price proxy, depth, latency, and
